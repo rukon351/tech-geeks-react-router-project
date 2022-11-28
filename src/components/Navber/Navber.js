@@ -1,11 +1,14 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Logo from '../../Assets/Image/logo.png';
 import './Navber.css';
 
 const Navber = () => {
+
+    const { pathname } = useLocation()
+
     return (
-        <nav>
+        <nav style={pathname.includes("blog") ? { display: "none" } : { display: "flex" }}>
             <NavLink to='/'>
                 <div className='logo-container'>
                     <img src={Logo} alt="" />
@@ -13,7 +16,6 @@ const Navber = () => {
             </NavLink>
             <div className='link-container'>
                 <NavLink className={({ isActive }) => isActive ? "active-link" : "link"} to='/'>Home</NavLink>
-                <NavLink className={({ isActive }) => isActive ? "active-link" : "link"} to='/blog'>Blog</NavLink>
                 <NavLink className={({ isActive }) => isActive ? "active-link" : "link"} to='/vedios'>Vedios</NavLink>
                 <NavLink className={({ isActive }) => isActive ? "active-link" : "link"} to='/login'>Login</NavLink>
             </div>
