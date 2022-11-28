@@ -6,10 +6,16 @@ import Login from './components/Login/Login';
 import Navber from './components/Navber/Navber';
 import NotFound from './components/NotFound/NotFound';
 import BlogDetails from './components/BlogDetails/BlogDetails';
+import { createContext, useState } from 'react';
+
+export const BlogContext = createContext();
 
 function App() {
+
+  const [blogs, setBlogs] = useState([]);
+
   return (
-    <>
+    <BlogContext.Provider value={[blogs, setBlogs]}>
       <Navber></Navber>
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
@@ -18,7 +24,7 @@ function App() {
         <Route path='/blog/:id' element={<BlogDetails></BlogDetails>}></Route>
         <Route path='*' element={<NotFound></NotFound>}></Route>
       </Routes>
-    </>
+    </BlogContext.Provider>
   );
 }
 
