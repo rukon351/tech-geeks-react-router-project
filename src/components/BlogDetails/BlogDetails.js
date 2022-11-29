@@ -8,7 +8,7 @@ const BlogDetails = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
-    const [blogs] = useContext(BlogContext);
+    const [blogs, setBlogs] = useContext(BlogContext);
 
     const blog = blogs.find(blog => blog._id === id);
 
