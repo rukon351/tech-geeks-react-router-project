@@ -6,7 +6,7 @@ import FacebookLogo from '../../Assets/Image/facebook.svg';
 import { useNavigate } from "react-router-dom";
 import './AuthForm.css';
 import app from '../../Firebase/Firebase.init';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const auth = getAuth(app);
 
@@ -17,8 +17,9 @@ const Login = () => {
     const handleGoogleAuth = () => {
         signInWithPopup(auth, googleProvider)
             .then(result => {
-                const user = result.user;
-                console.log(user);
+                // const user = result.user;
+                // console.log(user);
+                navigate('/');
             })
             .catch(error => {
                 console.erro(error);
@@ -33,11 +34,29 @@ const Login = () => {
         console.log('hi this is from facebook')
     }
 
+    const handleLogIn = (event) => {
+        event.preventDefault()
+
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          console.log(errorMessage);
+        });
+    }
+
     return (
         <div className='auth-form-container '>
             <div className='auth-form'>
                 <h1>Login</h1>
-                <form>
+                <form onSubmit={handleLogIn}>
                     <div className='input-field'>
                         <label htmlFor='email'>Email</label>
                         <div className='input-wrapper'>
