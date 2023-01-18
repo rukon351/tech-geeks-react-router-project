@@ -9,6 +9,19 @@ nav {
     font-family: "Teko", sans-serif;
 }
 
+.logout-button {
+    border: none;
+    margin-left: 15px;
+    font-size: 20px;
+    font-family: "Teko", sans-serif;
+    background-color: transparent;
+    color: #1e90c2;
+  }
+  
+  .logout-button:hover {
+    color: #1b4388;
+  }
+
 .logo-container {
     display: flex;
     align-items: center;
