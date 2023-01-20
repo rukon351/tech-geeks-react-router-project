@@ -6,13 +6,15 @@ import FacebookLogo from '../../Assets/Image/facebook.svg';
 import { useNavigate } from "react-router-dom";
 import './AuthForm.css';
 import app from '../../Firebase/Firebase.init';
-import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { FacebookAuthProvider, getAuth, GithubAuthProvider, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 
 const auth = getAuth(app);
 
 const Login = () => {
     const navigate = useNavigate();
     const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+    const facebookProvider = new FacebookAuthProvider();
 
     const handleGoogleAuth = () => {
         signInWithPopup(auth, googleProvider)
@@ -27,11 +29,25 @@ const Login = () => {
     }
 
     const handleGithubAuth = () => {
-        console.log('hi this is from github');
+      signInWithPopup(auth, githubProvider)
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch(error => {
+        console.error(error.message);
+      })
     }
 
     const handleFacebookAuth = () => {
-        console.log('hi this is from facebook')
+        signInWithPopup(auth, facebookProvider)
+        .then(result => {
+            const user = result.user;
+            console.log(user);
+        })
+        .catch(error => {
+            console.error(error.message);
+        })
     }
 
     const handleLogIn = (event) => {
