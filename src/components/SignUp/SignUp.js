@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleLogo from '../../Assets/Image/google.svg';
 import FacebookLogo from '../../Assets/Image/facebook.svg';
@@ -10,6 +10,12 @@ const googleProvider = new GoogleAuthProvider();
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const [email, setEmail] =useState({value: "", error: ""});
+    const [password, setPassword] = useState({value: "", error: ""});
+    const [confirmPassword, setConfirmPassword] = useState({value: "", error: ""});
+    console.log(email)
+    console.log(password)
+    console.log(confirmPassword)
 
     const handleGoogleAuth = () => {
         signInWithPopup(auth, googleProvider)
@@ -22,6 +28,27 @@ const SignUp = () => {
                 console.error(error);
             })
     }
+
+    const handleEmail = (emailInput) => {
+        if(/\S+@\S+\.\S+/.test(emailInput)){
+            setEmail({value: emailInput, error: ""})
+        }
+     else{
+        setEmail({value:"", error: "Invalid email"})
+     }
+    }
+
+    const handlePassword = (event) => {
+       const pass = (event.target.value);
+       const password = ({value: pass, error: ""})
+       setPassword(password);
+    }
+
+    const handleConfirmPassword = (event) => {
+        setConfirmPassword({value: event.target.value, error: ""});
+    }
+
+    // const handle
 
     const handleSignUp = event =>{
         event.preventDefault();
@@ -47,13 +74,16 @@ const SignUp = () => {
                     <div className='input-field'>
                         <label htmlFor='email'>Email</label>
                         <div className='input-wrapper'>
-                            <input type='text' name='email' id='email' />
+                            <input type='text' name='email' id='email' onBlur={(event) => handleEmail(event.target.value)} />
                         </div>
+                        {
+                            email?.error && <p>{email.error}</p>
+                        }
                     </div>
                     <div className='input-field'>
                         <label htmlFor='password'>Password</label>
                         <div className='input-wrapper'>
-                            <input type='password' name='password' id='password' />
+                            <input type='password' name='password' id='password' onBlur={handlePassword} />
                         </div>
                     </div>
                     <div className='input-field'>
@@ -63,6 +93,7 @@ const SignUp = () => {
                                 type='password'
                                 name='confirmPassword'
                                 id='confirm-password'
+                                onBlur={handleConfirmPassword}
                             />
                         </div>
                     </div>
