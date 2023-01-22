@@ -31,17 +31,20 @@ const SignUp = () => {
 
     const handleEmail = (emailInput) => {
         if(/\S+@\S+\.\S+/.test(emailInput)){
-            setEmail({value: emailInput, error: ""})
+            setEmail({value: emailInput, error: ""});
         }
      else{
-        setEmail({value:"", error: "Invalid email"})
+        setEmail({value:"", error: "Invalid email"});
      }
     }
 
-    const handlePassword = (event) => {
-       const pass = (event.target.value);
-       const password = ({value: pass, error: ""})
-       setPassword(password);
+    const handlePassword = (passwordInput) => {
+        if(passwordInput.length < 7){
+            setPassword({value: "", error:"Password too short"});
+        }
+        else{
+            setPassword({value: passwordInput, error:""});
+        }
     }
 
     const handleConfirmPassword = (event) => {
@@ -77,14 +80,17 @@ const SignUp = () => {
                             <input type='text' name='email' id='email' onBlur={(event) => handleEmail(event.target.value)} />
                         </div>
                         {
-                            email?.error && <p>{email.error}</p>
+                            email?.error && <p className='error'>{email.error}</p>
                         }
                     </div>
                     <div className='input-field'>
                         <label htmlFor='password'>Password</label>
                         <div className='input-wrapper'>
-                            <input type='password' name='password' id='password' onBlur={handlePassword} />
+                            <input type='password' name='password' id='password' onBlur={(event) => handlePassword(event.target.value)} />
                         </div>
+                        {
+                            password?.error && <p className='error'>{password.error}</p>
+                        }
                     </div>
                     <div className='input-field'>
                         <label htmlFor='confirm-password'>Confirm Password</label>
