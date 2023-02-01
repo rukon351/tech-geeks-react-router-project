@@ -5,6 +5,7 @@ import FacebookLogo from '../../Assets/Image/facebook.svg';
 import GithubLogo from '../../Assets/Image/github.svg';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../Firebase/Firebase.init';
+import { toast } from 'react-hot-toast';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -47,18 +48,29 @@ const SignUp = () => {
         }
     }
 
-    const handleConfirmPassword = (event) => {
-        setConfirmPassword({value: event.target.value, error: ""});
+    const handleConfirmPassword = (confirmPasswordInput) => {
+       if(confirmPasswordInput === password.value){
+        setConfirmPassword({value: confirmPasswordInput, error: ""})
+       }
+       else{
+        setConfirmPassword({value: "", error: "Password Mismatched"})
+       }
     }
 
-    // const handle
 
     const handleSignUp = event =>{
         event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
+        toast('Hellow', {id: "test"})
 
-        createUserWithEmailAndPassword(auth, email, password)
+        if(email.value === ""){
+            setEmail({value: "", error: "Email is required"});
+        }
+        if(password.value === ""){
+            setPassword({value: "", error: "Password is required"});
+        }
+
+        if(email.value && password.value && confirmPassword.value === password.value){
+        createUserWithEmailAndPassword(auth, email.value, password.value)
         .then(result => {
             const user = result.user;
             console.log(user); 
@@ -67,6 +79,7 @@ const SignUp = () => {
             const errorMessage = error.message;
            console.log(errorMessage);
           });
+        }
     }
 
     return (
@@ -99,9 +112,12 @@ const SignUp = () => {
                                 type='password'
                                 name='confirmPassword'
                                 id='confirm-password'
-                                onBlur={handleConfirmPassword}
+                                onBlur={(event) =>handleConfirmPassword(event.target.value)}
                             />
                         </div>
+                        {
+                            confirmPassword?.error && <p className='error'>{confirmPassword.error}</p>
+                        }
                     </div>
                     <button type='submit' className='auth-form-submit'>
                         Sign Up
